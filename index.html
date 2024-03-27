@@ -37,20 +37,7 @@
             window.player = player; // Make the player object global.
         });
 
-        window.addEventListener('keydown', function (e) {
-            if (e.key === 'ArrowRight') {
-                loadImageWithUrl("https://codespacehelp.s3.amazonaws.com/students/bobharterink/photo-1709678144287-6e3af13b8c6c.jpeg");
-            }
-        })
-
         async function prepareDropzone() {
-            // const res = await fetch("https://timely-bienenstitch-dd27f4.netlify.app/.netlify/functions/generate-upload-url", {
-            //     methods: "POST"
-            // })
-            // if (!res.ok) {
-            //     throw new Error("Failed to generate upload URL");
-            // }
-            // const { url, uuid, file_name } = await res.json();
 
             const filename = Math.random().toString(36).substring(7) + '.jpeg';
             const url = `https://bobsdangerbucket.s3.eu-north-1.amazonaws.com/uploads/${filename}`;
@@ -60,7 +47,6 @@
                 console.log(file);
                 loadImageWithUrl(url);
             })
-
         }
 
         async function loadImageWithUrl(url) {
