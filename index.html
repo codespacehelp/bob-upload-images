@@ -5,12 +5,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="https://unpkg.com/dropzone@6.0.0-beta.2/dist/dropzone.css" />
+    <link rel="stylesheet" href="style.css">
+
 </head>
 
 <body>
-    <canvas width="800" height="600" id="mycanvas"></canvas>
-    <input type="file" id="file" disabled>
 
+
+    <div id="drop_zone" class="disabled dropzone">
+        <span class="text-lg">Drag &amp; Drop</span>
+        <span class="text-sm">JPEG file here</span>
+        <span class="text-sm">— OR —</span>
+        <span class="fake-button">Browse Files</button>
+    </div>
+
+    <canvas width="800" height="600" id="mycanvas"></canvas>
+
+
+    <script src="https://unpkg.com/dropzone@6.0.0-beta.2/dist/dropzone-min.js"></script>
     <script src="https://nodebox.live/api/v1/ndbx.js"></script>
     <script>
         const options = {
@@ -22,7 +35,6 @@
 
         ndbx.embed(options, function (err, player) {
             window.player = player; // Make the player object global.
-            document.querySelector('#file').removeAttribute('disabled');
         });
 
         window.addEventListener('keydown', function (e) {
@@ -30,6 +42,19 @@
                 loadImageWithUrl("https://codespacehelp.s3.amazonaws.com/students/bobharterink/photo-1709678144287-6e3af13b8c6c.jpeg");
             }
         })
+
+        async function prepareDropzone() {
+            const res = await fetch("https://timely-bienenstitch-dd27f4.netlify.app/.netlify/functions/generate-upload-url", {
+                methods: "POST"
+            })
+            if (!res.ok) {
+                throw new Error("Failed to generate upload URL");
+            }
+            const { url, uuid, file_name } = await res.json();
+
+            let myDropzone = new Dropzone('#drop_zone', { url, method: "put", binaryBody: true, acceptedFiles: "image/jpeg" });
+
+        }
 
         async function loadImageWithUrl(url) {
             const res = await fetch(url, {
@@ -45,6 +70,8 @@
             }
             image.src = blobUrl;
         }
+
+        prepareDropzone();
     </script>
 </body>
 
