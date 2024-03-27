@@ -39,40 +39,12 @@
             const blobUrl = URL.createObjectURL(blob);
             const image = new Image();
             image.onload = function () {
-
-
-                // const canvas = document.createElement('canvas');
-                // const ctx = canvas.getContext('2d');
-                // canvas.width = img.width;
-                // canvas.height = img.height;
-                // ctx.drawImage(img, 0, 0);
-                // document.appendChild(canvas);
                 ndbx.assets[url] = image;
                 player.setValue('getPixels2', 'imageName', url);
                 URL.revokeObjectURL(blobUrl);
             }
-
-
-            // };
             image.src = blobUrl;
-            // 
         }
-
-        // document.querySelector('#file').addEventListener('change', function (e) {
-        //     var file = e.target.files[0];
-        //     console.log(file);
-        //     var reader = new FileReader();
-        //     reader.onload = function (e) {
-        //         var data = e.target.result;
-        //         const image = new Image();
-        //         image.src = data;
-        //         image.onload = function () {
-        //             ndbx.assets[file.name] = image;
-        //             player.setValue('getPixels2', 'imageName', file.name);
-        //         }
-        //     }
-        //     reader.readAsDataURL(file);
-        // });
     </script>
 </body>
 
